@@ -1,0 +1,9 @@
+1.third_set_command_1:ls -al
+2.second_set_command_1:mv src dst
+3.second_set_command_2:chmod
+4.second_set_command_3:pwd
+5.second_set_command_4:ping
+6.first_set_command_1:grep
+7.first_set_command_2:ps
+8.first_set_command_3:kill
+9.first_set_command_4:diff
