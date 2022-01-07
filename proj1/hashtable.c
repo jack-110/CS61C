@@ -7,11 +7,10 @@
  */
 HashTable *createHashTable(int size, unsigned int (*hashFunction)(void *),
                            int (*equalFunction)(void *, void *)) {
-  int i = 0;
   HashTable *newTable = malloc(sizeof(HashTable));
   newTable->size = size;
   newTable->data = malloc(sizeof(struct HashBucket *) * size);
-  for (i = 0; i < size; ++i) {
+  for (int i = 0; i < size; ++i) {
     newTable->data[i] = NULL;
   }
   newTable->hashFunction = hashFunction;
@@ -32,23 +31,25 @@ void insertData(HashTable *table, void *key, void *data) {
   // 1. Find the right hash bucket location with table->hashFunction.
   // 2. Allocate a new hash bucket struct.
   // 3. Append to the linked list or create it if it does not yet exist.
-  unsigned int (* hashFunction)(void *) = table->hashFunction;
-  int index= (*hashFunction)(key);
+  int index = table->hashFunction(key);
+  struct HashBucket *bucket  = table->data[index];
 
- struct HashBucket *bucket = malloc(sizeof(struct HashBucket *));
+  struct HashBucket *newBucket = (struct HashBucket *) malloc(sizeof(struct HashBucket));
+  newBucket->key = key;
+  newBucket->data = data;
 
-  if (table->data[index] == NULL) {
-    bucket->key = key;
-    bucket->data = data;
-    bucket->next = NULL;    
-    table->data[index] = bucket;
+
+  if (bucket == NULL) {
+    table->data[index] = newBucket;
     return;
   }
 
-  bucket->key = key;
-  bucket->data = data;
-  bucket->next = table->data[index];
-  table->data[index] = bucket;
+  while (bucket != NULL && bucket->next != NULL) {
+    bucket = bucket->next;	  
+  }
+ 
+  bucket->next = newBucket;
+  return;
 }
 
 /*

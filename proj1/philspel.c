@@ -75,13 +75,15 @@ int main(int argc, char **argv) {
  */
 unsigned int stringHash(void *s) {
   char *string = (char *)s;
-  unsigned long hashValue = 0;
 
+  unsigned long hashValue = 0;
   while (*string != '\0') {
     hashValue = hashValue * MULTIPLIER + *string;
+    string++;
   }
   
   int size = dictionary->size;
+
   return hashValue % size;
 }
 
@@ -116,17 +118,41 @@ int stringEquals(void *s1, void *s2) {
  *
  * Since the format is one word at a time, with new lines in between,
  * you can safely use fscanf() to read in the strings until you want to handle
- * arbitrarily long dictionary chacaters.
+ S
  */
 void readDictionary(char *dictName) {
+  int total = 60;
+  int index = 0;
+  char c;
+  char *word = (char*)malloc(total);
   FILE *fp = fopen(dictName, "r");
-  char *word = (char*)malloc(70);
 
-  while (fscanf(fp,"%s",word) != EOF) {
-    if (findData(dictionary, word) == NULL) {
-      insertData(dictionary, word, word);
-    } 
+  if (NULL == fp) {
+    fprintf(stderr,"the dictionary file not eixt\n");
+    exit(1);
   }
+  
+  while ((c=fgetc(fp)) != EOF) {
+    if (c == '\n') {
+      char *key = (char*)malloc(index);
+      memcpy(key, word, index); 
+      if (findData(dictionary, key) == NULL) {
+        insertData(dictionary, key, key);
+      }
+      index = 0;
+      continue;
+    }
+
+    if (index == total) {
+      word = (char*)realloc(word, 2 * total);
+    }
+
+    word[index] = c;
+    index += 1;
+  }
+
+  free(word);  
+  fclose(fp);
 }
 
 /*
@@ -151,8 +177,7 @@ void readDictionary(char *dictName) {
  * final 20% of your grade, you cannot assume words have a bounded length.
  */
 void processInput() {
-  //get standard input: all letters and not all letters
-
+  //get standard input: letters and not all letters
   int total = 60;
   char *str1 = (char *)malloc(sizeof(char) * total);
   char *str2 = (char *)malloc(sizeof(char) * total);
@@ -161,35 +186,57 @@ void processInput() {
   int c = 0;
 
   while ((c = fgetc(stdin)) != EOF) {
-    //letters
+    //overflow
     if(i == total) {
       str1 = (char *)realloc(str1, total *= 2);
       str2 = (char *)realloc(str2, total *= 2);
       str3 = (char *)realloc(str3, total *= 2);
     }
-    
+    //letters
     if (isalpha(c) != 0) {
       str1[i] = (char) c;
       str2[i] = (char) tolower(c);
       str3[i] = (i==0) ? c : (char)tolower(c);
-      i += 1; 
+      i += 1;
+     continue; 
     } else {
-      if(isalpha(str1[0])) {
-        str1[i] = '\0';
-	str2[i] = '\0';
-	str3[i] = '\0';
-	if (findData(dictionary, str1) == NULL && findData(dictionary, str2) == NULL && findData(dictionary, str3) == NULL) {
-	  fprintf(stdout, "%s [sic]%c", str1, c);
-	} else {
-	  fprintf(stdout, "%s%c", str1, c);
+        if(isalpha(str1[0])) {
+          str1[i] = '\0';
+	  str2[i] = '\0';
+	  str3[i] = '\0';
+
+	  if (findData(dictionary, str1) == NULL && findData(dictionary, str2) == NULL && findData(dictionary, str3) == NULL) {
+	    fprintf(stdout, "%s [sic]%c", str1, c);
+	  } else {
+	    fprintf(stdout, "%s%c", str1, c);
+	  } 
+        } else {
+	    fprintf(stdout, "%c", c);
 	}
-      }
     }
 
     i = 0;
     memset(str1, 0, strlen(str1));
     memset(str2, 0, strlen(str2));
     memset(str3, 0, strlen(str3));
-  }        
+  }
+
+  if (isalpha(str1[0])) {
+    str1[i] = '\0';
+    str2[i] = '\0';
+    str3[i] = '\0';
+
+    if(findData(dictionary, str1) == NULL && findData(dictionary, str2) == NULL && findData(dictionary, str3) == NULL) {
+      fprintf(stdout, "%s [sic]%c", str1, c);
+    } else {
+      fprintf(stdout, "%s%c", str1, c);
+    } 
+  } else {
+    fprintf(stdout, "%c", c);
+  }
+  
+  free(str1);
+  free(str2);
+  free(str3);
 }
   
