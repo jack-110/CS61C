@@ -227,9 +227,9 @@ void processInput() {
     str3[i] = '\0';
 
     if(findData(dictionary, str1) == NULL && findData(dictionary, str2) == NULL && findData(dictionary, str3) == NULL) {
-      fprintf(stdout, "%s [sic]%c", str1, c);
+      fprintf(stdout, "%s [sic]", str1);
     } else {
-      fprintf(stdout, "%s%c", str1, c);
+      fprintf(stdout, "%s", str1);
     } 
   } else {
     fprintf(stdout, "%c", c);
