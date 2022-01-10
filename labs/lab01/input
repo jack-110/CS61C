@@ -1,0 +1,4 @@
+# if without line 2, we should use:gdb -ex=r --args int_hello < input
+# ref:https://stackoverflow.com/questions/6121094/how-do-i-run-a-program-with-commandline-#arguments-using-gdb-within-a-bash-script
+r input
+陈洋
