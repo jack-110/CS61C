@@ -1,0 +1,4 @@
+1..data means static segment in memory; .word means store listed values in data segment and add null-terminator; .txt means store code instrucitons in text segment in memory.
+2. 34 reg[t0].
+3. 0x10000008.
+4. change the value of t3 reg.
