@@ -1,0 +1,5 @@
+1.t0 rep k.
+2.s0 rep sum.
+3.s1 rep the pointer to source, and s2 rep the pointer to dest.
+4.line num 28 - line num 46.
+5.use pointer as base address.
