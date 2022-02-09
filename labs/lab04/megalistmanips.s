@@ -65,17 +65,27 @@ mapLoop:
     add t1, s0, x0      # load the address of the array of current node into t1
     lw t2, 4(s0)        # load the size of the node's array into t2
 
-    add t1, t1, t0      # offset the array address by the count
+    li t3, 4            # Fix-1: array is byte-address so we should use 4 
+    mul t3, t3, t0      # Fix-1: offset 4 * t0
+    lw t1, 0(t1)        # Fix-2: get the addres of array  
+    add t1, t1, t3      # offset the array address by the count
+
     lw a0, 0(t1)        # load the value at that address into a0
 
+    addi sp, sp, -4      ## Fix-3: t1 reg are caller svaed
+    sw t1, 0(sp)
+
     jalr s1             # call the function on that value.
+
+    lw t1, 0(sp)
+    addi sp, sp, 4
 
     sw a0, 0(t1)        # store the returned value back into the array
     addi t0, t0, 1      # increment the count
     bne t0, t2, mapLoop # repeat if we haven't reached the array size yet
 
-    la a0, 8(s0)        # load the address of the next node into a0
-    lw a1, 0(s1)        # put the address of the function back into a1 to prepare for the recursion
+    lw a0, 8(s0)        # Fix-4:load the address of the next node into a0, la will laod the address of address
+    add a1, x0, s1      # Fix-5: put the address of the function back into a1 to prepare for the recursion
 
     jal  map            # recurse
 done:

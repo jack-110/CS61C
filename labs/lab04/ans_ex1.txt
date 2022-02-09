@@ -1,0 +1,5 @@
+1.fix-1: array is byte-addressed, and because it's an int array, so need multiplay four.
+2.fix-2: when we first read 0(t1), we get the addres fo array, not the value array stores.
+3.fix-3: s1 changed t1 reg, so we need save it.
+4.fix-4: la is load address.
+5.fix-5: lw a1, 0(s1) loads the value at address s1, not load s1 itself into a1.
