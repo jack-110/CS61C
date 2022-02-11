@@ -77,6 +77,12 @@ main:
 # Think: why might having a1 be useful?
 f:
     # YOUR CODE GOES HERE!
+    addi t0, a0, 3 # a0 + 3 => index of array
+    li t1, 4       # byte-addressed
+    mul t0, t0, t1 # t0 stores the offset now
+
+    add t0, a1, t0 # array address + offset => array[0...6]
+    lw a0, 0(t0)   
 
     jr ra               # Always remember to jr ra after your function!
 
