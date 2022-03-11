@@ -32,9 +32,9 @@ dot:
     addi t1 x0 4    # t1 rep the size of array element.
     add t2 x0 x0    # we will put intermediate result in t2
     add t3 a3 x0    # t3 rep the stride of v0
-    mul t3 t3 t1    # t3 rep the #memory locations for each element in v0
+    slli t3 t3 2
     add t4 a4 x0    # t4 rep the stride of v1
-    mul t4 t4 t1    # t4 rep the #memory location for each element in v1
+    slli t4 t4 2
 
 
 loop_start:

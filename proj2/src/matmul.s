@@ -56,41 +56,38 @@ outer_loop_start:
     
     beq t0 s1 outer_loop_end
 
-    # compute location of row vector in m0: a0 +  #col * 4 * outrer loop index.
+    # compute offset from m0 measured in bytes = s0 +  #col * 4 * outter loop index.
     slli t2 s2 2    # t2 rep #bytes of each row in m0.
     mul t3 t2 t0    # t3 rep offset from a0. 
-    add a0 s0 t3    
-    mv a2 s2        
-    li a3 1         
     
-    mv t5 a0        # call dot will override a0.
- 
-    add s6 a6 t3
     add t2 x0 x0    # t2 rep inner loop index.
     
     
 inner_loop_start:
     
     beq t2 s5 inner_loop_end
-    # compute location of col vector in m1: a3 + inner loop index * 4.
-    slli t1 t2 2    # t1 = 4 * index
-    add a1 s3 t1   
+    add a0 s0 t3
+    # compute offset from m1 = s3 + inner loop index * 4.
+    slli t1 t2 2  
+    add a1 s3 t1
+
+    mv a2 s2
+    li a3 1   
     mv a4 s5        # a4 parameter for dot function.
     
     addi sp sp -12
     sw t0 0(sp)
     sw t2 4(sp)
-    sw t5 8(sp)
+    sw t3 8(sp)
     jal ra dot     # call dot.
     lw t0 0(sp)
     lw t2 4(sp)
-    lw t5 8(sp)
+    lw t3 8(sp)
     addi sp sp 12
     
     # put a0 into d in right position
     sw a0 0(s6)
     addi s6 s6 4
-    mv a0 t5
     
     # jump to inner_loop_end
     addi t2 t2 1

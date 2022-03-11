@@ -57,6 +57,6 @@ zero_neg:
 exit_8:
 
     addi a0 x0 17
-    add a1 x0 8
+    addi a1 x0 8
     ecall
 
