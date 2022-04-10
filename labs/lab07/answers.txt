@@ -19,16 +19,17 @@ Exercise 1
 		5.#blocks doesn't affect hit rate, but block size will increase hit rate.
 
 Exercise 2
-	ijk:
-	ikj:
-	jik:
-	jki:
-	kij:
-	kji:
+	ijk:B with stride 1, A with stride n, C with stride 0.
+	ikj:B with stride n, A with stride 0, C with stride n.
+	jik:B with stride 1, A with stride n, C with stride 0.
+	jki:B with stride 0, A with stride 1, C with stride 1.
+	kij:B with stride n, A with stride 0, C with stride n.
+	kji:B with stride 0, A with stride 1, C with stride 1.
 
-	1.
-	2.
-	3.
+	1.jki implementation is fast, because it access both arrayA and arrayB by rows that fully make use of spatial and temporal locality.
+	2.ikj implementation is slowest, because it access by cols.
+	3.with a fixed siez block, the stride value decides wheather we can make use of cache data!
+If the stride is too large, the next data that we want will be located at another block memory.
 
 Exercise 3
 	Part 1
