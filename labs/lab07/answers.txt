@@ -1,0 +1,51 @@
+Exercise 1
+	Scenario 1
+		1.Because block size in bytes is exactly equal to step size in bytes. 
+		2.The hit rate still 0, because we repeate the same array access pattern every time.
+		3.Change stepsize to 1.
+
+	Scenario 2
+		1.64, because array[index] = array[index] + 1 has two memory access.
+		2.Miss Hit Hit Hit, because array[index] Miss, array[index] Hit, array[index+1] Hit, array[index+1] Hit for each block.
+		3.0.75
+		4.hit rate ~ 1, because the whole memory cached after first iteration.
+		5.hit rate high, because the cache size is high.
+
+	Scenario 3
+		1.hit rate L1=0.5, L2=0, overall=1/3.
+		2.L1 32 access, 16 miss.
+		3.L1 16 access, we access L2 cache when L1 cache miss.
+		4.we can increase rep counts, as we have cached all data in L2 after first rep.
+		5.#blocks doesn't affect hit rate, but block size will increase hit rate.
+
+Exercise 2
+	ijk:
+	ikj:
+	jik:
+	jki:
+	kij:
+	kji:
+
+	1.
+	2.
+	3.
+
+Exercise 3
+	Part 1
+		blocksize = 20, n = 100: 
+		blocksize = 20, n = 1000: 
+		blocksize = 20, n = 2000: 
+		blocksize = 20, n = 5000: 
+		blocksize = 20, n = 10000: 
+
+		1.
+		2.
+
+	Part 2
+		blocksize = 50, n = 10000:
+		blocksize = 100, n = 10000:
+		blocksize = 500, n = 10000:
+		blocksize = 1000, n = 10000:
+		blocksize = 5000, n = 10000:
+
+		1.
