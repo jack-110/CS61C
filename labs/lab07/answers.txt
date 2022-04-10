@@ -16,7 +16,7 @@ Exercise 1
 		2.L1 32 access, 16 miss.
 		3.L1 16 access, we access L2 cache when L1 cache miss.
 		4.we can increase rep counts, as we have cached all data in L2 after first rep.
-		5.#blocks doesn't affect hit rate, but block size will increase hit rate.
+		5.# blocks doesn't affect hit rate, but block size will increase hit rate.
 
 Exercise 2
 	ijk:B with stride 1, A with stride n, C with stride 0.
