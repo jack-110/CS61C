@@ -1,0 +1,18 @@
+ex1
+	1. virtual address has five bits offsets, so the page size is 32bytes.
+	2. TLB Hits 4, Miss 6; Page Hits 0, Faults 6.
+	3. No. Because physical memory size = TLB size = 4, there always only have 4 entries are valid and cached in TLB. 
+	we cann't think of any set of ten address that would result in page hit.
+	4. VA => VPN, then TLB Miss; walk page table, and page faluts; load the page in disk into main memory, and update
+	page table、TLB.
+ex2
+	00 20 40 60 80 A0 C0 E0 00 20.
+	Reason1: Just as we explained in the last question, entries in page table are all cached in TLB.
+	Reason2: the ten address don't access the same page in a four pags cycle.
+
+ex3
+	memory size, because memory size is four, so the page table only have 4 valid entries and it's the same in TLB. If we can increase the memory size, we can add more entries than TLB.
+
+ex4
+	p1 p2 p3 p4 represents different processes!
+	because the va is bigger.
